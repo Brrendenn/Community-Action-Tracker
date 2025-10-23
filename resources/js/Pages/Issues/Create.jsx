@@ -1,124 +1,47 @@
-import React, { useState } from 'react';
+import React from 'react'; // Keep React import
+import { Head, Link, useForm, usePage } from '@inertiajs/react'; // <-- Import useForm and usePage
 
-// --- Helper Components (Self-contained for preview) ---
-// In your actual Laravel project, you would import these from the files
-// created by `breeze:install`. We are defining them here so the preview works.
-
-const InputLabel = ({ value, className = '', children, ...props }) => {
-    return (
-        <label {...props} className={`block font-medium text-sm text-gray-700 ` + className}>
-            {value ? value : children}
-        </label>
-    );
-};
-
-const TextInput = React.forwardRef(function TextInput({ type = 'text', className = '', isFocused = false, ...props }, ref) {
-    const input = ref ? ref : React.useRef();
-
-    React.useEffect(() => {
-        if (isFocused) {
-            input.current.focus();
-        }
-    }, []);
-
-    return (
-        <input
-            {...props}
-            type={type}
-            className={
-                'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm ' +
-                className
-            }
-            ref={input}
-        />
-    );
-});
-
-const InputError = ({ message, className = '', ...props }) => {
-    return message ? (
-        <p {...props} className={'text-sm text-red-600 ' + className}>
-            {message}
-        </p>
-    ) : null;
-};
-
-const PrimaryButton = ({ className = '', disabled, children, ...props }) => {
-    return (
-        <button
-            {...props}
-            className={
-                `inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 ${
-                    disabled && 'opacity-25'
-                } ` + className
-            }
-            disabled={disabled}
-        >
-            {children}
-        </button>
-    );
-};
-
-// Simplified layout for preview purposes
-const AuthenticatedLayout = ({ user, header, children }) => (
-    <div className="min-h-screen bg-gray-100">
-        <nav className="bg-white border-b border-gray-100">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between h-16">
-                    <div className="flex items-center font-bold">Community Tracker</div>
-                    <div className="flex items-center">{user.name}</div>
-                </div>
-            </div>
-        </nav>
-        {header && (
-            <header className="bg-white shadow">
-                <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">{header}</div>
-            </header>
-        )}
-        <main>{children}</main>
-    </div>
-);
-
+// --- Import Helper Components ---
+import InputLabel from '@/Components/InputLabel';
+import TextInput from '@/Components/TextInput';
+import InputError from '@/Components/InputError';
+import PrimaryButton from '@/Components/PrimaryButton';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'; // Assuming you have this layout
 
 // --- Main Create Component ---
 export default function Create() {
-    // Mock user for preview
-    const auth = { user: { name: 'John Doe' } };
+    // Get the authenticated user from Inertia props
+    const { auth } = usePage().props;
 
-    // Replace Inertia's useForm with React's useState
-    const [data, setData] = useState({
+    // Use Inertia's useForm hook
+    const { data, setData, post, processing, errors, reset } = useForm({
         title: '',
         location: '',
         description: '',
         photo: null,
     });
-    const [processing, setProcessing] = useState(false);
-    // Mock errors for demonstration
-    const [errors, setErrors] = useState({
-        title: '',
-        location: '',
-        description: '',
-        photo: ''
-    });
 
     const handleOnChange = (event) => {
-        setData({ ...data, [event.target.name]: event.target.type === 'file' ? event.target.files[0] : event.target.value });
+        setData(event.target.name, event.target.type === 'file' ? event.target.files[0] : event.target.value);
     };
 
     const submit = (e) => {
         e.preventDefault();
-        setProcessing(true);
-        // In a real Inertia app, a `post()` function would handle the submission.
-        // Here, we just log it to the console.
-        console.log('Submitting data:', data);
-        // Simulate end of processing
-        setTimeout(() => setProcessing(false), 1000);
+        // Use the 'post' method from useForm to submit to the Laravel route
+        post(route('issues.store'), {
+            // Optional: reset the form on success
+             onSuccess: () => reset(),
+        });
     };
 
     return (
+        // Use the actual AuthenticatedLayout and pass the auth user
         <AuthenticatedLayout
-            user={auth.user}
+            user={auth.user} // Pass the actual user object
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Report a New Issue</h2>}
         >
+            <Head title="Report New Issue" /> {/* Use Inertia's Head */}
+
             <div className="py-12">
                 <div className="max-w-2xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -134,7 +57,9 @@ export default function Create() {
                                         autoComplete="title"
                                         isFocused={true}
                                         onChange={handleOnChange}
+                                        required // Add required if needed
                                     />
+                                    {/* Display errors from Inertia */}
                                     <InputError message={errors.title} className="mt-2" />
                                 </div>
 
@@ -147,6 +72,7 @@ export default function Create() {
                                         className="mt-1 block w-full"
                                         placeholder="e.g., Corner of Main St & Park Ave"
                                         onChange={handleOnChange}
+                                        required // Add required if needed
                                     />
                                     <InputError message={errors.location} className="mt-2" />
                                 </div>
@@ -160,28 +86,32 @@ export default function Create() {
                                         className="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
                                         rows="5"
                                         onChange={handleOnChange}
+                                        required // Add required if needed
                                     />
                                     <InputError message={errors.description} className="mt-2" />
                                 </div>
 
                                 <div className="mt-4">
                                     <InputLabel htmlFor="photo" value="Photo (Optional)" />
+                                    {/* Use a specific input for files with useForm */}
                                     <input
                                         type="file"
                                         id="photo"
-                                        name="photo"
+                                        name="photo" // Make sure name matches the state key
                                         className="mt-1 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
-                                        onChange={handleOnChange}
+                                        onChange={(e) => setData('photo', e.target.files[0])} // Directly set file data
                                     />
                                     <InputError message={errors.photo} className="mt-2" />
                                 </div>
 
                                 <div className="flex items-center justify-end mt-4">
-                                    <a href="#" className="text-sm text-gray-600 hover:text-gray-900 mr-4">
+                                    {/* Use Inertia's Link for navigation */}
+                                    <Link href={route('issues.index')} className="text-sm text-gray-600 hover:text-gray-900 mr-4">
                                         Cancel
-                                    </a>
+                                    </Link>
+                                    {/* Disable button while processing */}
                                     <PrimaryButton className="ml-4" disabled={processing}>
-                                        Report Issue
+                                        {processing ? 'Reporting...' : 'Report Issue'}
                                     </PrimaryButton>
                                 </div>
                             </form>
@@ -192,4 +122,3 @@ export default function Create() {
         </AuthenticatedLayout>
     );
 }
-

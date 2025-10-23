@@ -6,8 +6,24 @@ use Illuminate\Database\Eloquent\Model;
 
 class Issue extends Model
 {
-    //
-    public function user(){
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [ // <-- ADD THIS ARRAY
+        'title',
+        'location',
+        'description',
+        'photo_path',
+        'status',
+        'user_id'
+    ];
+    /**
+     * Get the user that reported the issue.
+     */
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 }
