@@ -2,7 +2,6 @@ import { usePage, Head, Link, router } from "@inertiajs/react";
 import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
-// The StatusBadge component is already self-contained
 const StatusBadge = ({ status }) => {
     const statusClasses = {
         submitted: "text-blue-700 bg-blue-100",
@@ -21,13 +20,10 @@ const StatusBadge = ({ status }) => {
     );
 };
 
-// --- Main Show Component ---
 export default function Show({ auth, issue, flash }) {
 
     const deleteIssue = (e) => {
         e.preventDefault();
-        // Use Inertia's router for deletion (make sure you import `usePage` or `router` if needed)
-        // For simplicity, keeping window.confirm for now. A modal is better UX.
         if (window.confirm("Are you sure you want to delete this issue?")) {
             router.delete(route("issues.destroy", issue.id));
             const messageBox = document.createElement('div');
@@ -52,7 +48,7 @@ export default function Show({ auth, issue, flash }) {
             <div className="py-12">
                 <div className="max-w-4xl mx-auto sm:px-6 lg:px-8">
                     {flash &&
-                        flash.success(
+                        flash.success && (
                             <div
                                 className="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
                                 role="alert"
