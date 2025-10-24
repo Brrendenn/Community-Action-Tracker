@@ -1,8 +1,6 @@
+import CommunityLayout from '@/Layouts/CommunityLayout';
+import { Head, Link, useForm} from '@inertiajs/react';
 import React, { useState } from 'react';
-
-// --- Helper Components & Mocks (Self-contained for preview) ---
-// In a real Laravel project, you would import these from the files created by `breeze:install`.
-// They are defined here to make the component previewable.
 
 const InputLabel = ({ value, className = '', children, ...props }) => (
     <label {...props} className={`block font-medium text-sm text-gray-700 ` + className}>
@@ -37,75 +35,27 @@ const PrimaryButton = ({ className = '', disabled, children, ...props }) => (
     </button>
 );
 
-const AuthenticatedLayout = ({ user, header, children }) => (
-    <div className="min-h-screen bg-gray-100 font-sans">
-        <nav className="bg-white border-b border-gray-100">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between h-16">
-                    <div className="flex items-center font-bold text-gray-800">Community Tracker</div>
-                    <div className="flex items-center text-gray-600">{user.name}</div>
-                </div>
-            </div>
-        </nav>
-        {header && (
-            <header className="bg-white shadow">
-                <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">{header}</div>
-            </header>
-        )}
-        <main>{children}</main>
-    </div>
-);
-
-// Mock Head and Link components for preview
-const Head = ({ title }) => {
-    React.useEffect(() => { console.log(`Setting document title to: ${title}`); }, [title]);
-    return null;
-};
-const Link = ({ href, className, children }) => <a href={href} className={className}>{children}</a>;
-
-// --- Main Edit Component ---
-export default function Edit() {
-    const auth = { user: { name: 'Current User' } };
-    const issue = {
-        id: 1,
-        title: 'Flickering Streetlight',
-        location: 'Corner of Oak & Maple',
-        description: 'The streetlight at this corner has been flickering for several days, creating a potential safety hazard at night.',
-        photo_path: 'issue_photos/existing_photo.jpg',
-    };
-    const errors = {};
-    const [data, setData] = useState({
+export default function Edit({ auth, issue, errors }) {
+    const { data, setData, post, processing } = useForm({
         title: issue.title,
         location: issue.location,
         description: issue.description,
         photo: null,
+        _method: 'PUT'
     });
-    const [processing, setProcessing] = useState(false);
 
     const handleOnChange = (event) => {
         const { name, value, type, files } = event.target;
-        setData(previousData => ({
-            ...previousData,
-            [name]: type === 'file' ? files[0] : value,
-        }));
+        setData(name, type === 'file' ? files[0] : value);
     };
 
     const submit = (e) => {
         e.preventDefault();
-        setProcessing(true);
-        console.log('Submitting updated data:', data);
-        setTimeout(() => {
-            setProcessing(false);
-            const messageBox = document.createElement('div');
-            messageBox.textContent = 'Issue updated successfully! (Simulation)';
-            messageBox.style.cssText = 'position:fixed;top:1rem;right:1rem;padding:1rem;background-color:#4CAF50;color:white;border-radius:5px;box-shadow:0 2px 5px rgba(0,0,0,0.2);z-index:1000;';
-            document.body.appendChild(messageBox);
-            setTimeout(() => document.body.removeChild(messageBox), 3000);
-        }, 1500);
+        post(route('issues.update', issue.id));
     };
 
     return (
-        <AuthenticatedLayout
+        <CommunityLayout
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Edit Issue: "{issue.title}"</h2>}
         >
@@ -179,7 +129,7 @@ export default function Edit() {
                     </div>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </CommunityLayout>
     );
 }
 
