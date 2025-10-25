@@ -38,7 +38,7 @@ class IssueController extends Controller
             'title' => 'required|string|max:255',
             'location' => 'required|string|max:255',
             'description' => 'required|string',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10000',
         ]);
 
         $photoPath = null;
@@ -96,7 +96,7 @@ class IssueController extends Controller
             'title' => 'required|string|max:255',
             'location' => 'required|string|max:255',
             'description' => 'required|string',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10000',
         ]);
         
         $issue->update([
