@@ -10,9 +10,9 @@ Route::get('/', function () {
     return redirect()->route('issues.index');
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/issues', function () {
+    return Inertia::render('Issues/Index');
+})->middleware(['auth', 'verified'])->name('issues.index');
 
 Route::middleware(['auth', 'verified'])->group(function () { // <-- We'll put our routes inside this group
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
