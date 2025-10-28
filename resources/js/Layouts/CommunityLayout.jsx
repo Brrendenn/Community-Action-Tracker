@@ -1,10 +1,12 @@
-import Dropdown from '@/Components/Dropdown';
-import { Link, usePage } from '@inertiajs/react';
-import { useState } from 'react';
+import Dropdown from "@/Components/Dropdown";
+import { Link, usePage } from "@inertiajs/react";
+import NavLink from "@/Components/NavLink";
+import { useState } from "react";
 
 export default function CommunityLayout({ header, children }) {
     const user = usePage().props.auth.user;
-    const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+    const [showingNavigationDropdown, setShowingNavigationDropdown] =
+        useState(false);
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -14,17 +16,42 @@ export default function CommunityLayout({ header, children }) {
                         <div className="flex">
                             {/* Logo */}
                             <div className="flex shrink-0 items-center">
-                                <Link href={route('issues.index')} className="flex items-center space-x-3">
+                                <Link
+                                    href={route("issues.index")}
+                                    className="flex items-center space-x-3"
+                                >
                                     {/* Custom Icon */}
                                     <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-                                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                        <svg
+                                            className="w-6 h-6 text-white"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth={2}
+                                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                                            />
                                         </svg>
                                     </div>
                                     <span className="text-xl font-bold text-gray-900">
                                         Community Tracker
                                     </span>
                                 </Link>
+                            </div>
+                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                {user && user.is_admin && (
+                                    <NavLink
+                                        href={route("admin.issues.index")}
+                                        active={route().current(
+                                            "admin.issues.index"
+                                        )}
+                                    >
+                                        Admin Issues
+                                    </NavLink>
+                                )}
                             </div>
                         </div>
 
@@ -57,11 +84,13 @@ export default function CommunityLayout({ header, children }) {
                                     </Dropdown.Trigger>
 
                                     <Dropdown.Content>
-                                        <Dropdown.Link href={route('profile.edit')}>
+                                        <Dropdown.Link
+                                            href={route("profile.edit")}
+                                        >
                                             Profile
                                         </Dropdown.Link>
                                         <Dropdown.Link
-                                            href={route('logout')}
+                                            href={route("logout")}
                                             method="post"
                                             as="button"
                                         >
@@ -77,7 +106,7 @@ export default function CommunityLayout({ header, children }) {
                             <button
                                 onClick={() =>
                                     setShowingNavigationDropdown(
-                                        (previousState) => !previousState,
+                                        (previousState) => !previousState
                                     )
                                 }
                                 className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none"
@@ -91,8 +120,8 @@ export default function CommunityLayout({ header, children }) {
                                     <path
                                         className={
                                             !showingNavigationDropdown
-                                                ? 'inline-flex'
-                                                : 'hidden'
+                                                ? "inline-flex"
+                                                : "hidden"
                                         }
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
@@ -102,8 +131,8 @@ export default function CommunityLayout({ header, children }) {
                                     <path
                                         className={
                                             showingNavigationDropdown
-                                                ? 'inline-flex'
-                                                : 'hidden'
+                                                ? "inline-flex"
+                                                : "hidden"
                                         }
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
@@ -119,8 +148,8 @@ export default function CommunityLayout({ header, children }) {
                 {/* Mobile Menu */}
                 <div
                     className={
-                        (showingNavigationDropdown ? 'block' : 'hidden') +
-                        ' sm:hidden'
+                        (showingNavigationDropdown ? "block" : "hidden") +
+                        " sm:hidden"
                     }
                 >
                     <div className="border-t border-gray-200 pb-1 pt-4">
@@ -134,15 +163,23 @@ export default function CommunityLayout({ header, children }) {
                         </div>
 
                         <div className="mt-3 space-y-1">
+                            {user && user.is_admin && (
+                                <Link
+                                    href={route("admin.issues.index")}
+                                    className="block w-full px-4 py-2 text-start text-base font-medium text-gray-600 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-800 focus:bg-gray-100 focus:text-gray-800 focus:outline-none"
+                                >
+                                    Admin Issues
+                                </Link>
+                            )}
                             <Link
-                                href={route('profile.edit')}
+                                href={route("profile.edit")}
                                 className="block w-full px-4 py-2 text-start text-base font-medium text-gray-600 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-800 focus:bg-gray-100 focus:text-gray-800 focus:outline-none"
                             >
                                 Profile
                             </Link>
                             <Link
                                 method="post"
-                                href={route('logout')}
+                                href={route("logout")}
                                 as="button"
                                 className="block w-full px-4 py-2 text-start text-base font-medium text-gray-600 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-800 focus:bg-gray-100 focus:text-gray-800 focus:outline-none"
                             >
