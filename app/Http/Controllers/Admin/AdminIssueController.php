@@ -13,7 +13,7 @@ class AdminIssueController extends Controller
     public function index()
     {
         $issues = Issue::with('user')->latest()->paginate(20); 
-        return Inertia::render('Admin/IssuesIndex', [
+        return Inertia::render('Admin/IssueIndex', [
             'issues' => $issues,
         ]);
     }
