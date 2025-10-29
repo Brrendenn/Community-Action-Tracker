@@ -43,14 +43,26 @@ export default function CommunityLayout({ header, children }) {
                             </div>
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 {user && user.is_admin && (
-                                    <NavLink
-                                        href={route("admin.issues.index")}
-                                        active={route().current(
-                                            "admin.issues.index"
-                                        )}
-                                    >
-                                        Admin Issues
-                                    </NavLink>
+                                    <>
+                                        <NavLink
+                                            href={route("admin.dashboard")}
+                                            active={route().current(
+                                                "admin.dashboard"
+                                            )}
+                                        >
+                                            Admin Dashboard
+                                        </NavLink>
+
+                                        {/* This is your existing link */}
+                                        <NavLink
+                                            href={route("admin.issues.index")}
+                                            active={route().current(
+                                                "admin.issues.index"
+                                            )}
+                                        >
+                                            Admin Issues
+                                        </NavLink>
+                                    </>
                                 )}
                             </div>
                         </div>
