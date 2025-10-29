@@ -45,9 +45,13 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+        
+        $adminEmail = 'nbr4nd0n2005@gmail.com';
 
-        // CHANGE THIS LINE
-        // return redirect(route('dashboard', absolute: false)); // Original
-        return redirect(route('issues.index', absolute: false)); // New redirect
+        if($request->user()->email === $adminEmail) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        return redirect(route('issues.index', absolute: false)); 
     }
 }
