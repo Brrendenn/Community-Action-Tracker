@@ -164,12 +164,21 @@ export default function CommunityLayout({ header, children }) {
 
                         <div className="mt-3 space-y-1">
                             {user && user.is_admin && (
-                                <Link
-                                    href={route("admin.issues.index")}
-                                    className="block w-full px-4 py-2 text-start text-base font-medium text-gray-600 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-800 focus:bg-gray-100 focus:text-gray-800 focus:outline-none"
-                                >
-                                    Admin Issues
-                                </Link>
+                                <>
+                                    <Link
+                                        href={route("admin.dashboard")}
+                                        className="block w-full px-4 py-2 text-start text-base font-medium text-gray-600 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-800 focus:bg-gray-100 focus:text-gray-800 focus:outline-none"
+                                    >
+                                        Admin Dashboard
+                                    </Link>
+
+                                    <Link
+                                        href={route("admin.issues.index")}
+                                        className="block w-full px-4 py-2 text-start text-base font-medium text-gray-600 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-800 focus:bg-gray-100 focus:text-gray-800 focus:outline-none"
+                                    >
+                                        Admin Issues
+                                    </Link>
+                                </>
                             )}
                             <Link
                                 href={route("profile.edit")}

@@ -25,6 +25,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/issues', [AdminIssueController::class, 'index'])->name('issues.index');
     Route::patch('/issues/{issue}', [AdminIssueController::class, 'update'])->name('issues.update');
+    Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
 });
 
 require __DIR__.'/auth.php';

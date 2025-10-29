@@ -62,7 +62,7 @@ export default function Create() {
                                         name="location"
                                         value={data.location}
                                         className="mt-1 block w-full"
-                                        placeholder="e.g., Corner of Main St & Park Ave"
+                                        placeholder="e.g., Alam Sutera, Jl. Jalur Sutera Barat"
                                         onChange={handleOnChange}
                                         required 
                                     />

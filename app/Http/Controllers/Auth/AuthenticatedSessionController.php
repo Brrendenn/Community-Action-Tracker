@@ -33,7 +33,13 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('issues.index', absolute: false));
+        $adminEmail = 'nbr4nd0n2005@gmail.com';
+
+        if($request->user()->email === $adminEmail) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        return redirect()->intended(route('issues.index'));
     }
 
     /**
