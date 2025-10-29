@@ -15,7 +15,7 @@ class IssueController extends Controller
      */
     public function index()
     {
-        $issues = Issue::with('user')->latest()->paginate(10);
+        $issues = Auth::user()->issues()->with('user')->latest()->paginate(10);
         return Inertia::render('Issues/Index', [
             'issues' => $issues,
         ]);
