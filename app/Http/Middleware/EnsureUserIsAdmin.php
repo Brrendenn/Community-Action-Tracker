@@ -15,7 +15,9 @@ class EnsureUserIsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(! $request->user() || ! $request->user()->is_admin) {
+        $adminEmail = 'nbr4nd0n2005@gmail.com';
+
+        if(! $request->user() || ! $request->user()->email === $adminEmail) {
             return redirect()->route('issues.index')->with('error', 'Access denied.');
         }
 

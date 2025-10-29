@@ -29,6 +29,9 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
 {
+
+    $adminEmail = 'nbr4nd0n2005@gmail.com';
+
     return [
         ...parent::share($request),
         'auth' => [
@@ -36,7 +39,7 @@ class HandleInertiaRequests extends Middleware
                 'id' => $request->user()->id,
                 'name' => $request->user()->name,
                 'email' => $request->user()->email,
-                'is_admin' => $request->user()->is_admin, 
+                'is_admin' => $request->user()->email === $adminEmail, 
             ] : null,
         ],
         'flash' => [
