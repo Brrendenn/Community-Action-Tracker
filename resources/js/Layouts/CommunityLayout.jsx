@@ -14,13 +14,11 @@ export default function CommunityLayout({ header, children }) {
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 justify-between">
                         <div className="flex">
-                            {/* Logo */}
                             <div className="flex shrink-0 items-center">
                                 <Link
                                     href={route("issues.index")}
                                     className="flex items-center space-x-3"
                                 >
-                                    {/* Custom Icon */}
                                     <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
                                         <svg
                                             className="w-6 h-6 text-white"
@@ -37,7 +35,7 @@ export default function CommunityLayout({ header, children }) {
                                         </svg>
                                     </div>
                                     <span className="text-xl font-bold text-gray-900">
-                                        Community Tracker
+                                        Community Spark
                                     </span>
                                 </Link>
                             </div>
@@ -53,7 +51,6 @@ export default function CommunityLayout({ header, children }) {
                                             Admin Dashboard
                                         </NavLink>
 
-                                        {/* This is your existing link */}
                                         <NavLink
                                             href={route("admin.issues.index")}
                                             active={route().current(
@@ -67,7 +64,6 @@ export default function CommunityLayout({ header, children }) {
                             </div>
                         </div>
 
-                        {/* Desktop Profile Dropdown */}
                         <div className="hidden sm:ms-6 sm:flex sm:items-center">
                             <div className="relative ms-3">
                                 <Dropdown>
@@ -113,7 +109,6 @@ export default function CommunityLayout({ header, children }) {
                             </div>
                         </div>
 
-                        {/* Mobile Menu Button */}
                         <div className="-me-2 flex items-center sm:hidden">
                             <button
                                 onClick={() =>
@@ -157,7 +152,6 @@ export default function CommunityLayout({ header, children }) {
                     </div>
                 </div>
 
-                {/* Mobile Menu */}
                 <div
                     className={
                         (showingNavigationDropdown ? "block" : "hidden") +

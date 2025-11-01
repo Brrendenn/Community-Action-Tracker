@@ -22,7 +22,7 @@ export default function GuestLayout({ children }) {
                 </div>
             </div>
             <span className="text-xl font-bold text-gray-900 mt-4">
-                Community Tracker
+                Community Spark
             </span>
             <div className="mt-6 w-full overflow-hidden bg-white px-6 py-4 shadow-md sm:max-w-md sm:rounded-lg">
                 {children}
