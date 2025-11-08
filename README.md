@@ -11,7 +11,7 @@
 
 ## 💡 Introduction
 
-The **Community Action Tracker** helps users track ongoing and completed community actions, such as volunteer projects, social outreach programs, and local initiatives.
+**Community Spark** helps users track ongoing and completed community actions, such as volunteer projects, social outreach programs, and local initiatives.
 
 It was developed to make community management easier — allowing users to add, monitor, and complete actions with clear visibility into their progress.
 
