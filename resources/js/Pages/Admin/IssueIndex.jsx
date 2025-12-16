@@ -1,4 +1,3 @@
-// resources/js/Pages/Admin/IssuesIndex.jsx
 import React from 'react';
 import { Head, Link, useForm, router } from '@inertiajs/react';
 import CommunityLayout from '@/Layouts/CommunityLayout'; 

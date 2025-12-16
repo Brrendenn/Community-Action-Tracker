@@ -33,7 +33,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        $adminEmail = 'nbr4nd0n2005@gmail.com';
+        $adminEmail = 'admin@gmail.com';
 
         if($request->user()->email === $adminEmail) {
             return redirect()->route('admin.dashboard');
